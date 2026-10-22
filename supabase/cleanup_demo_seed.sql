@@ -1,0 +1,184 @@
+-- Remove only the fixed demo records from supabase/seed.sql.
+-- Run in the Supabase SQL Editor for the disposable test project that received
+-- the demo seed. This preserves the schema and the baseline university catalog.
+BEGIN;
+
+-- Remove demo-only dependent records first.
+DELETE FROM saved_internships
+WHERE user_id IN (
+  'a0000000-0000-0000-0000-000000000032',
+  'a0000000-0000-0000-0000-000000000033'
+)
+AND internship_id IN (
+  'd0000000-0000-0000-0000-000000000001',
+  'd0000000-0000-0000-0000-000000000004',
+  'd0000000-0000-0000-0000-000000000005'
+);
+
+DELETE FROM notifications
+WHERE user_id IN (
+  'a0000000-0000-0000-0000-000000000030',
+  'a0000000-0000-0000-0000-000000000031'
+)
+AND (
+  (title = 'You have been shortlisted!' AND body = 'Your application for Junior Software Developer Intern at iCog has been shortlisted.')
+  OR (title = 'Logbook entry approved' AND body = 'Your logbook entry for the week of 2025-06-01 was approved.')
+  OR (title = 'Interview scheduled' AND body = 'Your interview for Finance & Accounting Intern at CBE is confirmed.')
+);
+
+DELETE FROM placement_letters
+WHERE public_code = 'IM-DEMO0001'
+  AND placement_id = 'f1000000-0000-0000-0000-000000000001';
+
+DELETE FROM evaluations
+WHERE placement_id = 'f1000000-0000-0000-0000-000000000001'
+  AND submitted_by = 'a0000000-0000-0000-0000-000000000010'
+  AND type = 'midterm';
+
+DELETE FROM placements
+WHERE id = 'f1000000-0000-0000-0000-000000000001'
+  AND application_id = 'ab000000-0000-0000-0000-000000000001';
+
+DELETE FROM interviews
+WHERE application_id = 'ab000000-0000-0000-0000-000000000003'
+  AND location_or_link = 'CBE Head Office, Addis Ababa — HR Dept, 3rd Floor';
+
+DELETE FROM offers
+WHERE application_id = 'ab000000-0000-0000-0000-000000000005'
+  AND terms = 'Unpaid internship. Transport allowance ETB 500/month. Mon-Fri 8:30-17:30.';
+
+DELETE FROM applications
+WHERE id IN (
+  'ab000000-0000-0000-0000-000000000001',
+  'ab000000-0000-0000-0000-000000000002',
+  'ab000000-0000-0000-0000-000000000003',
+  'ab000000-0000-0000-0000-000000000004',
+  'ab000000-0000-0000-0000-000000000005',
+  'ab000000-0000-0000-0000-000000000006'
+);
+
+DELETE FROM internships
+WHERE id IN (
+  'd0000000-0000-0000-0000-000000000001',
+  'd0000000-0000-0000-0000-000000000002',
+  'd0000000-0000-0000-0000-000000000003',
+  'd0000000-0000-0000-0000-000000000004',
+  'd0000000-0000-0000-0000-000000000005'
+)
+AND company_id IN (
+  'c0000000-0000-0000-0000-000000000001',
+  'c0000000-0000-0000-0000-000000000002',
+  'c0000000-0000-0000-0000-000000000003',
+  'c0000000-0000-0000-0000-000000000004'
+);
+
+DELETE FROM company_members
+WHERE (company_id, user_id) IN (
+  ('c0000000-0000-0000-0000-000000000001', 'a0000000-0000-0000-0000-000000000010'),
+  ('c0000000-0000-0000-0000-000000000002', 'a0000000-0000-0000-0000-000000000011'),
+  ('c0000000-0000-0000-0000-000000000003', 'a0000000-0000-0000-0000-000000000012'),
+  ('c0000000-0000-0000-0000-000000000004', 'a0000000-0000-0000-0000-000000000013')
+);
+
+DELETE FROM companies
+WHERE id IN (
+  'c0000000-0000-0000-0000-000000000001',
+  'c0000000-0000-0000-0000-000000000002',
+  'c0000000-0000-0000-0000-000000000003',
+  'c0000000-0000-0000-0000-000000000004'
+)
+AND owner_id IN (
+  'a0000000-0000-0000-0000-000000000010',
+  'a0000000-0000-0000-0000-000000000011',
+  'a0000000-0000-0000-0000-000000000012',
+  'a0000000-0000-0000-0000-000000000013'
+);
+
+DELETE FROM education
+WHERE student_id IN (
+  'b0000000-0000-0000-0000-000000000030',
+  'b0000000-0000-0000-0000-000000000031',
+  'b0000000-0000-0000-0000-000000000033'
+)
+AND institution IN ('Addis Ababa University', 'Bahir Dar University')
+AND start_date IN ('2021-09-01', '2022-09-01');
+
+DELETE FROM student_profiles
+WHERE id IN (
+  'b0000000-0000-0000-0000-000000000030',
+  'b0000000-0000-0000-0000-000000000031',
+  'b0000000-0000-0000-0000-000000000032',
+  'b0000000-0000-0000-0000-000000000033',
+  'b0000000-0000-0000-0000-000000000034'
+)
+AND user_id IN (
+  'a0000000-0000-0000-0000-000000000030',
+  'a0000000-0000-0000-0000-000000000031',
+  'a0000000-0000-0000-0000-000000000032',
+  'a0000000-0000-0000-0000-000000000033',
+  'a0000000-0000-0000-0000-000000000034'
+);
+
+DELETE FROM university_members
+WHERE (university_id, user_id) IN (
+  ('00000000-0000-0000-0000-000000000001', 'a0000000-0000-0000-0000-000000000020'),
+  ('00000000-0000-0000-0000-000000000002', 'a0000000-0000-0000-0000-000000000021')
+);
+
+DELETE FROM departments
+WHERE id IN (
+  'd0000000-0000-0000-0000-000000000001',
+  'd0000000-0000-0000-0000-000000000002',
+  'd0000000-0000-0000-0000-000000000003',
+  'd0000000-0000-0000-0000-000000000004',
+  'd0000000-0000-0000-0000-000000000005',
+  'd0000000-0000-0000-0000-000000000006',
+  'd0000000-0000-0000-0000-000000000007',
+  'd0000000-0000-0000-0000-000000000008',
+  'd0000000-0000-0000-0000-000000000009',
+  'd0000000-0000-0000-0000-000000000010'
+);
+
+-- Preserve audit history while removing references to demo accounts. The
+-- audit_no_update rule blocks the FK's ON DELETE SET NULL action, so briefly
+-- remove it inside this transaction and restore it immediately afterward.
+DROP RULE audit_no_update ON audit_logs;
+
+UPDATE audit_logs
+SET actor_id = NULL
+WHERE actor_id IN (
+  'a0000000-0000-0000-0000-000000000001',
+  'a0000000-0000-0000-0000-000000000010',
+  'a0000000-0000-0000-0000-000000000011',
+  'a0000000-0000-0000-0000-000000000012',
+  'a0000000-0000-0000-0000-000000000013',
+  'a0000000-0000-0000-0000-000000000020',
+  'a0000000-0000-0000-0000-000000000021',
+  'a0000000-0000-0000-0000-000000000030',
+  'a0000000-0000-0000-0000-000000000031',
+  'a0000000-0000-0000-0000-000000000032',
+  'a0000000-0000-0000-0000-000000000033',
+  'a0000000-0000-0000-0000-000000000034'
+);
+
+-- Remove only demo auth accounts whose fixed IDs also match the seed emails.
+DELETE FROM auth.users
+WHERE (id, email) IN (
+  ('a0000000-0000-0000-0000-000000000001', 'admin@internmatch.et'),
+  ('a0000000-0000-0000-0000-000000000010', 'owner@icogafrica.com'),
+  ('a0000000-0000-0000-0000-000000000011', 'owner@cbe.com.et'),
+  ('a0000000-0000-0000-0000-000000000012', 'owner@ethiotelecom.et'),
+  ('a0000000-0000-0000-0000-000000000013', 'owner@safaricom.et'),
+  ('a0000000-0000-0000-0000-000000000020', 'coordinator@aau.edu.et'),
+  ('a0000000-0000-0000-0000-000000000021', 'coordinator@dbu.edu.et'),
+  ('a0000000-0000-0000-0000-000000000030', 'abebe.kebede@student.aau.edu.et'),
+  ('a0000000-0000-0000-0000-000000000031', 'sara.tesfaye@student.aau.edu.et'),
+  ('a0000000-0000-0000-0000-000000000032', 'yonas.girma@student.dbu.edu.et'),
+  ('a0000000-0000-0000-0000-000000000033', 'hana.mulugeta@student.bdu.edu.et'),
+  ('a0000000-0000-0000-0000-000000000034', 'samuel.tadesse@student.aau.edu.et')
+);
+
+-- Restore append-only audit behavior only after demo users are deleted.
+CREATE RULE audit_no_update AS ON UPDATE TO audit_logs DO INSTEAD NOTHING;
+
+COMMIT;

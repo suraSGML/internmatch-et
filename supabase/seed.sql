@@ -1,0 +1,2 @@
+-- Demo seed data has been intentionally disabled.
+-- Add test fixtures here only when you explicitly need them for local development.
